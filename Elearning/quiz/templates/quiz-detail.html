@@ -1,0 +1,54 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+
+ <body style="background-color: #eee">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="register_Card" style="border-radius: 15px; width: 633.66px;">
+              <div class="card-body p-5 ">
+               
+                <h1  style="text-align:center">{{ quiz.title }}</h1>
+
+                {% if request.user.profile.is_teacher == True and request.user.profile == quiz.owner %}
+                <a
+                  href="{% url 'add-question' quiz.id %}"
+                  type="button"
+                  class="btn btn-outline-primary ms-1"
+                  style="border-radius: 10px; float: right"
+                  >Add question</a>
+
+                {% endif %}
+                <em>{{quiz.description}}</em>
+                <div style="margin-top:10px"> 
+                <a type="button" href="{% url 'view-attemp' quiz.id %}" id= "clickme">My attempts</a>  
+                <h5>Attempts: {{quiz.attempts}}</h5>
+                <h5>Points to pass: {{quiz.marksToPass}} %</h5>
+                <h5>Time: {{quiz.time}} minute{{quiz.time|pluralize:"s"}}</h5>
+              
+             
+                </div>
+                
+                    <br>
+                    
+                    {% if quiz.attempts != 0 %}
+                    <a type="button" href="{% url 'quiz-display' quiz.id %}" id= "clickme">start test</a>  
+                    {% else %}
+                    <p>Sorry but you finished your attempts</p>
+                    {% endif %}             
+ 
+                  </div>
+            
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </body> 
+
+
+
+{% endblock content %}

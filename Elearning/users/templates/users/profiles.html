@@ -1,0 +1,255 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+
+<section style="background-color: #eee">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img
+              src="{{profile.imageURL}}"
+              alt="avatar"
+              class="rounded-circle img-fluid"
+              style="width: 150px"
+            />
+            <h5 class="my-3">{{profile.name}}</h5>
+            {%if profile.short_intro %}
+            <p class="text-muted mb-1">{{profile.short_intro}}</p>
+            {% endif %} {%if profile.address %}
+            <p class="text-muted mb-4">{{profile.address}}</p>
+            {% endif %}
+            <div class="d-flex justify-content-center mb-2">
+              {% if request.user.profile.id != profile.id %}
+              <a
+                href="{% url 'send-message' profile.id %}"
+                type="button"
+                class="btn btn-outline-primary ms-1 form__button"
+                style="padding-top: 12px"
+                >Send Message</a
+              >
+              {%endif%} {% comment %}
+              <button
+                type="button"
+                class="btn btn-outline-primary ms-1 form__button"
+              >
+                Send Message
+              </button>
+              {% endcomment %}
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              {%if profile.social_github%}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fab fa-github fa-lg" style="color: #333333"></i>
+                <a title="GitHub" href="{{profile.social_github}}" class="mb-0"
+                  >github</a
+                >
+              </li>
+              {% endif %} {%if profile.social_linkedin%}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fas bi bi-linkedin fa-lg" style="color: blue"></i>
+                <a
+                  title="linkedin"
+                  href="{{profile.social_linkedin}}"
+                  class="mb-0"
+                  >linkedin</a
+                >
+              </li>
+              {% endif %} {%if profile.social_twitter%}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fab fa-twitter fa-lg" style="color: #55acee"></i>
+                <a
+                  title="twitter"
+                  href="{{profile.social_twitter}}"
+                  class="mb-0"
+                  >twitter</a
+                >
+              </li>
+              {% endif %} {%if profile.social_youtube%}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fab bi-youtube fa-lg" style="color: red"></i>
+                <a
+                  title="youtube"
+                  href="{{profile.social_youtube}}"
+                  class="mb-0"
+                  >youtube</a
+                >
+              </li>
+              {% endif %} {%if profile.social_website%}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i
+                  class="fas fa-globe fa-lg text-warning"
+                  style="color: #3b5998"
+                ></i>
+                <a
+                  title="youtube"
+                  href="{{profile.social_website}}"
+                  class="mb-0"
+                  >website</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{profile.username}}</p>
+              </div>
+            </div>
+            {% if profile.email%}
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{profile.email}}</p>
+              </div>
+            </div>
+            {%endif%} {% if profile.mobile%}
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mobile</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{profile.mobile}}</p>
+              </div>
+            </div>
+            {%endif%} {% if profile.address%}
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Address</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{profile.address}}</p>
+              </div>
+            </div>
+            {%endif%}
+          </div>
+        </div>
+        {% if profile.bio%}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <h3 class="About__title">About him</h3>
+                <em>{{profile.bio}}</em>
+              </div>
+            </div>
+          </div>
+          {%endif%}
+          <div class="row g-4 justify-content-center">
+            <h3 class="About__title">Courses</h3>
+            {%for course in profile.course_set.all%}
+            <div
+              class="col-lg-4 col-md-6 wow fadeInUp card"
+              style="margin-right: 1em"
+              data-wow-delay="0.1s"
+            >
+              <div class="course-item">
+                <div iv class="position-relative overflow-hidden">
+                  <img
+                    class="img-fluid img_course"
+                    src="{{course.imageURL}}"
+                    alt="image"
+                  />
+                  <div
+                    class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4"
+                  >
+                    <a
+                      href="{% url 'course' course.id %}"
+                      class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                      style="border-radius: 30px 0 0 30px"
+                      >Read More</a
+                    >
+                    <a
+                      href="#"
+                      class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                      style="border-radius: 0 30px 30px 0"
+                      >Join Now</a
+                    >
+                  </div>
+                </div>
+                <div class="text-center p-4 pb-0">
+                  {% comment %}
+                  <h3 class="mb-0">$149.00</h3>
+                  {% endcomment %}
+                  <div class="mb-3">
+                    <div class="rating-star">
+                      <span>
+                            <b style="color: #cc9000;">{{course.avgreview|stringformat:".1f"}}</b>
+                            <i class ="fa fa-star{% if course.avgreview < 0.5 %}-o{% elif course.avgreview >= 0.5 and course.avgreview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                            <i class ="fa fa-star{% if course.avgreview < 1.5 %}-o{% elif course.avgreview >= 1.5 and course.avgreview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                            <i class ="fa fa-star{% if course.avgreview < 2.5 %}-o{% elif course.avgreview >= 2.5 and course.avgreview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                            <i class ="fa fa-star{% if course.avgreview < 3.5 %}-o{% elif course.avgreview >= 3.5 and course.avgreview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                            <i class ="fa fa-star{% if course.avgreview < 4.5 %}-o{% elif course.avgreview >= 4.5 and course.avgreview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>     
+                            <small>({{ course.countreview }} rating{{ course.countreview |pluralize:"s"}})</small> 
+                      </span>
+                </div>
+                  </div>
+                  <h5 class="mb-4">{{course.title}}</h5>
+                </div>
+                <div class="d-flex border-top">
+                  <small class="flex-fill text-center border-end py-2"
+                    ><i class="fa fa-user-tie text-primary me-2"></i
+                    ><a href="{%url 'profiles' course.owner.id %}"
+                      >By {{ course.owner.name }}
+                    </a></small
+                  >
+
+                  <small class="flex-fill text-center border-end py-2"
+                    ><i class="fa fa-clock text-primary me-2"></i>1.49
+                    Hrs</small
+                  >
+                  <small class="flex-fill text-center py-2"
+                  ><i class="fa fa-user text-primary me-2"></i
+                  >{{ course.students.count }} Student{{ course.students.count|pluralize:"s"}}</small
+                >
+                </div>
+                <div class="btn-group-toggle" >
+                  {% for tag in course.tags.all %}
+                  <span class="btn btn-primary tags" style="margin-top: 5px !important;"  >
+                    <small >{{tag}}</small>
+                  </span>
+                  {%endfor%}
+                </div>
+              </div>
+
+              <!-- Courses End -->
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

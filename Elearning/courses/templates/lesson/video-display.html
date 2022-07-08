@@ -1,0 +1,21 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+<body>
+  <div id="video" class="container">
+    <h1
+      class="singleCourse__subtitle"
+      style="text-align: center; margin-top: 1em"
+    >
+      {{ video.title }}
+    </h1>
+    <div class="row">
+      <div class="ratio ratio-16x9 video-display">
+        <iframe
+          src="https://www.youtube.com/embed/{{video.videolink}}?rel=0&showinfo=0&autohide=1"
+          title="YouTube video"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock content %}

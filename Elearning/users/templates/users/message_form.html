@@ -1,0 +1,56 @@
+{%extends 'main.html'%} {% block content %} 
+
+
+<body style="background-color: #eee">
+
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="register_Card" style="border-radius: 15px">
+              <div class="card-body p-5">
+                <a href="{% url 'profiles' recipient.id %}" class="back_previous back_round">&#8249;</a>
+                <form method="POST">
+                  {% csrf_token %}
+                  {% if request.user.is_authenticated == False %}
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="inputtext">{{form.name.label}} </label>
+                     {{form.name}}
+                  </div>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="inputtext">{{form.email.label}} </label>
+                     {{form.email}}
+                  </div>
+
+                  {%endif%}
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="inputtext">{{form.subject.label}} </label>
+                     {{form.subject}}
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="inputtext">{{form.body.label}} </label>
+                     {{form.body}}
+                  </div>
+
+				<!-- Submit button -->
+                <div
+                  class="d-flex justify-content-center"
+                  style="margin-bottom: 24px"
+                >
+                  <button class="btn btn-primary btn-block form__button">
+                    Send
+                  </button>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+</body>
+{% endblock content %}

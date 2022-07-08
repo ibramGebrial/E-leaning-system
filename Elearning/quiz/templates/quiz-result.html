@@ -1,0 +1,34 @@
+{%extends 'main.html'%} {% block content %} 
+<table class="table">
+    <thead>
+      <tr>
+        
+        <th scope="col">#</th>
+        <th scope="col">marks</th>
+        <th scope="col">pass_at</th>
+        <th scope="col">pass or not</th>
+      </tr>
+    </thead>
+{%for attemp in profile.result_set.all%}
+
+    <tbody>
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>   
+        <td>{{attemp.marks}}</td>
+        <td>{{attemp.pass_at}}</td>     
+        {% if  attemp.marks >= quiz.marksToPass %}
+        <td class="table-success">Success</td>
+        {%else%}
+        <td class="table-danger">failed</td>
+        {% endif %}
+            
+        
+      </tr>
+    </tbody>
+
+   
+
+{% endfor %}
+</table>
+
+{%load static%} {% endblock content %}

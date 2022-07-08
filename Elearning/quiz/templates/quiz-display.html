@@ -1,0 +1,54 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+<form id="quiz-form" method="POST" enctype="multipart/form-data">
+  {%csrf_token%}
+  <div class="quiz-container" id="quiz">
+    
+    <div class="quiz-header">
+      <h1 class="quiz-title">{{quiz.title}}</h1>
+      <div class="row">
+        <div class="col-9">
+          <p>To pass the test, you must have {{quiz.marksToPass}} %</p>
+        </div>
+        <div id="timer-box" class="col"  style="color: red"></div>
+      </div>
+
+      {% for question in quiz.question_set.all %}
+
+      <h2 id="question">{{question.question_title}}</h2>
+
+      <ul style="list-style-type: none">
+        {% for answer in question.answer_set.all %}
+        <li>
+          <input
+            type="radio"
+            name="{{question.question_title}}"
+            value="{{answer.answer_option}}"
+            id="{{question.question_title}}-{{answer.answer_option}}"
+            class="answer"
+          />
+          <label for="{{question.question_title}}" id="a_text"
+            >{{answer.answer_option}}</label
+          >
+        </li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+    </div>
+
+    <button
+      class="btn btn-primary form__button"
+      style="width: 100%"
+      id="submit"
+    >
+      Submit
+    </button>
+
+  </div>
+</form>
+<div id="score-box"></div>
+<div id="result-box"></div>
+<script>
+  time ={{quiz.time}}
+</script>
+<script type="text/javascript" src="{% static 'js/quiz.js' %}"></script>
+{% endblock content %}

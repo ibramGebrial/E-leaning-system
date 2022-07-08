@@ -1,0 +1,26 @@
+{%extends 'main.html'%} {% block content %} {%load static%} 
+
+
+<div class="outer-border">
+    <div class="inner-dotted-border">
+           <span class="certification">Certificate of Completion</span>
+           <br><br>
+           <span class="certify"><i>This is to certify that</i></span>
+           <br><br>
+           <span class="name"><b>{{certificate.student.name}}</b></span><br/><br/>
+           <span class="certify"><i>has successfully completed the certification</i></span> <br/><br/>
+           <span class="fs-30">{{certificate.course.title}}</span> <br/><br/>
+           <span class="fs-20">Signature <b></b></span> <br/>
+           <span class="fs-30" style="font-family: 'Water Brush', cursive;">{{certificate.course.owner}}</span> <br/><br/>
+           <span class="certify"><i>dated</i></span><br>
+          
+          <span class="fs-30">{{certificate.created_at}}</span>
+    
+    </div>
+  
+    </div>
+    <button class="btn btn-outline-primary ms-1" onclick="window.print();">
+        <i class="fas fa-print"></i>
+        Download PDF
+    </button>
+{% endblock content %}

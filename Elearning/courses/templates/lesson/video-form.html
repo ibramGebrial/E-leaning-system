@@ -1,0 +1,32 @@
+{%extends 'main.html'%} {% block content %}
+
+<body style="background-color: #eee">
+  <form action=" " method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+      <div class="card px-1 py-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <a href="{% url 'courses'  %}" class="back_previous back_round"
+                >&#8249;</a
+              >
+              {%for field in form %}
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label"
+                  >{{field.label}}</label
+                >
+                {{field}}
+              </div>
+              {%endfor%}
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block form__button">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+
+{% endblock %}

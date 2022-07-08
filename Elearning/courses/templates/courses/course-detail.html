@@ -1,0 +1,356 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6
+        class="section-title bg-white text-center text-primary px-3 course_Detail"
+      >
+        Course-detail
+      </h6>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <img class="img-fluid" style="width:612px; height:351.1px;"" src="{{course.imageURL}}" alt="image" />
+        {% comment %}
+        <div
+          class="text-left wow fadeInUp text-primary px-3"
+          data-wow-delay="0.1s"
+        >
+          {% endcomment %}
+
+          <a
+            href="{% url 'profiles' course.owner.id  %}"
+            class="singleCourse__autor"
+            >{{course.owner.name}}</a
+          >
+          <h2 class="singleCourse__title">{{course.title}}</h2>
+    
+          {% comment %}
+          <h1 class="mb-5">{{course.title}}</h1>
+        </div>
+        {% endcomment %}
+        <div
+            class="card mb-4 mb-md-0"
+            style="background-color: #eee; width: 100%"
+          >
+            <div class="card-body">
+              <h3 class="About__title">
+                Course content 
+				      {% if request.user.profile.is_teacher == True and request.user.profile == course.owner %}
+                <a
+                  href="{% url 'create-lesson' course.id  %}"
+                  type="button"
+                  class="btn btn-outline-primary ms-1"
+                  style="border-radius: 10px; float: right"
+                  >Add lesson</a
+                >
+
+                <a
+                href="{% url 'add-certificate' course.id  %}"
+                type="button"
+                class="btn btn-outline-primary ms-1"
+                style="border-radius: 10px; float: right"
+                >Add cert</a
+              >
+
+                {% endif %}
+              </h3>
+
+                 {% for lesson in course.lesson_set.all %}
+
+              <button class="accordionn">
+                {{lesson.title}} 
+				        {%if request.user.profile.is_teacher == True and request.user.profile == course.owner %}
+                <a
+                  href="{% url 'add-video' lesson.id  %}"
+                  type="button"
+                  class="btn btn-outline-primary ms-1"
+                  style="border-radius: 10px"
+                  >Add
+                </a>
+
+                <a
+                href="{% url 'add-quiz' lesson.id  %}"
+                type="button"
+                class="btn btn-outline-primary ms-1"
+                style="border-radius: 10px"
+                >Add quiz
+              </a> 
+
+                {% endif %}
+              </button>
+
+              <div class="panel">
+                {% for video in lesson.video_set.all %} 
+				        {% if request.user.profile in course.students.all or request.user.profile == course.owner %}
+                <a
+                  href="{% url 'video-display' video.id %}"
+                  class="accordion-body video-title"
+                  style="margin-bottom: 0px"
+                >
+                  {{video.title}}
+                </a>
+                {% else %}
+                <p
+                  class="accordion-body video-title"
+                  style="margin-bottom: 0px"
+                >
+                  {{video.title}}
+                </p>
+                {% endif %} 
+                {%endfor%}
+
+                <button class="accordionn">
+                  Materials 
+				        {%if request.user.profile.is_teacher == True and request.user.profile == course.owner %}
+                  <a
+                    href="{% url 'add-material' lesson.id  %}"
+                    type="button"
+                    class="btn btn-outline-primary ms-1"
+                    style="border-radius: 10px"
+                    >Add material
+                  </a>
+                  {% endif %}
+				
+				  
+                </button>
+                {% for material in lesson.material_set.all %} 
+                {% if request.user.profile in course.students.all or request.user.profile == course.owner %}
+                      <a
+                        href="{% url 'material-display' material.id %}"
+                        class="accordion-body video-title"
+                        style="margin-bottom: 0px"
+                      >
+                        {{material.title}}
+                      </a>
+                      {% else %}
+                      <p
+                        class="accordion-body video-title"
+                        style="margin-bottom: 0px"
+                      >
+                        {{material.title}}
+                      </p>
+                      {% endif %} 
+               {%endfor%}
+
+                <button class="accordionn">
+                  Books 
+				        {%if request.user.profile.is_teacher == True and request.user.profile == course.owner %}
+                  <a
+                    href="{% url 'add-book' lesson.id  %}"
+                    type="button"
+                    class="btn btn-outline-primary ms-1"
+                    style="border-radius: 10px"
+                    >Add 
+                  </a>
+                  {% endif %}
+                </button>
+
+                {% for book in lesson.book_set.all %}
+
+                <a
+                  href="{% url 'book-display' book.id %}"
+                  class="accordion-body video-title"
+                  style="margin-bottom: 0px"
+                >
+                  {{book.title}}
+                </a>
+
+                {% endfor %} 
+                <button class="accordionn">
+                  Quiz 
+              
+                </button>
+                {% for quiz in lesson.quiz_set.all %}
+                {% comment %} {% if quiz.result.marks < quiz.marksToPass  %} {% endcomment %}
+                <a
+                  href="{% url 'quiz-detail' quiz.id %}"
+                  class="accordion-body video-title"
+                  style="margin-bottom: 0px"
+                >
+                  {{quiz.title}}
+                </a>
+				       
+              {% comment %} {% else %}
+              <p
+                  class="accordion-body video-title"
+                  style="margin-bottom: 0px"
+                >
+                  {{quiz.title}}
+                </p>
+                
+              {% endif %} {% endcomment %}
+              {%endfor%}
+              </div>
+              {%endfor%}
+			  
+			  {% for certificate in course.certificate_set.all %}
+			  <button class="accordionn">
+                		    Certificate    
+        </button> 
+       
+        <div class="panel">
+        
+          {%if request.user.profile.is_pass == True%}
+ 
+   
+          
+          <a
+          href="{% url 'certificate-display' certificate.id %}"
+          class="accordion-body video-title"
+          style="margin-bottom: 0px"
+        >
+          {{certificate.title}}
+        </a>
+      {% else %}
+        <p
+       
+        class="accordion-body video-title"
+        style="margin-bottom: 0px"
+      >
+       Sorry, but first you need to pass all the tests
+      </p>
+
+      {% endif %}
+      </div>
+			  {%endfor%}
+            </div>
+          </div>
+      </div>
+
+      <div class="col">
+        <h3 class="singleCourse__subtitle">Requirements:</h3>
+        <em>{{course.requirements}}</em>
+        <h3 class="singleCourse__subtitle">Description:</h3>
+        <em>{{course.description}}</em>
+       
+        <h3 class="singleCourse_subtitle" style="margin-top: 1em">
+          Tools & Stacks
+        </h3>
+        <div class="singleCourse__toolStack">
+          <div class="btn-group-toggle">
+            {% for tag in course.tags.all %}
+            <span class="btn btn-primary tags">
+              <small>{{tag}}</small>
+            </span>
+            {%endfor%}
+          </div>
+          <div class="rating-star" style="margin-top:10px">
+            <span>
+              <b style="color: #cc9000;">{{course.avgreview|stringformat:".1f"}}</b>
+              <i class ="fa fa-star{% if course.avgreview < 0.5 %}-o{% elif course.avgreview >= 0.5 and course.avgreview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+              <i class ="fa fa-star{% if course.avgreview < 1.5 %}-o{% elif course.avgreview >= 1.5 and course.avgreview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+              <i class ="fa fa-star{% if course.avgreview < 2.5 %}-o{% elif course.avgreview >= 2.5 and course.avgreview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+              <i class ="fa fa-star{% if course.avgreview < 3.5 %}-o{% elif course.avgreview >= 3.5 and course.avgreview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+              <i class ="fa fa-star{% if course.avgreview < 4.5 %}-o{% elif course.avgreview >= 4.5 and course.avgreview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+              
+              <small>({{ course.countreview }} rating{{ course.countreview |pluralize:"s"}})</small> 
+        </span>
+      </div>
+          <form action="{% url 'add-review' course.id  %}" method="POST">
+            {% csrf_token %}
+            
+            <div>
+              <!-- Rating stars -->
+              <h5 class="singleCourse__subtitle" style="margin-top:20px;"> Write your feedback here! </h5> 
+              <div class="rating">
+                <input type="radio" name="rate" id="rating10" value="5" required /><label for="rating10" title="5"></label>
+                <input type="radio" name="rate" id="rating9" value="4.5" required /><label for="rating9" title="4.5" class="half"></label>
+                <input type="radio" name="rate" id="rating8" value="4" required /><label for="rating8" title="4"></label>
+                <input type="radio" name="rate" id="rating7" value="3.5" required /><label for="rating7" title="3.5" class="half"></label>
+                <input type="radio" name="rate" id="rating6" value="3" required /><label for="rating6" title="3"></label>
+                <input type="radio" name="rate" id="rating5" value="2.5" required /><label for="rating5" title="2.5" class="half"></label>
+                <input type="radio" name="rate" id="rating4" value="2" required /><label for="rating4" title="2"></label>
+                <input type="radio" name="rate" id="rating3" value="1.5" required /><label for="rating3" title="1.5" class="half"></label>
+                <input type="radio" name="rate" id="rating2" value="1" required /><label for="rating2" title="1"></label>
+                <input type="radio" name="rate" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
+              </div> 
+  <br>
+              Review Title:
+              <input type="text" class="form-control" name="title">
+              <br>
+              Review body:
+              <textarea name="body" rows="4" class="form-control"></textarea>
+              <br>
+              
+              {% if request.user.profile in course.students.all or request.user.profile == course.owner %}
+                  <input type="submit" value="Submit" class="btn btn-primary btn-block form__button">
+              {% else %}
+              <p> You need to enroll in this course<p>
+          
+              {% endif %}
+  
+            </div>
+
+
+
+
+          </form>
+          <div class="singleCourse__subtitle">Student feedback</div>
+         {% for review in reviews %}
+		<div
+            class="card mb-4 mb-md-0"
+            style="background-color: #eee; width: 100%; margin-top: 20px; "
+          >
+            <div class="card-body"  >			   
+          
+            <div class="icontext w-100" >
+  
+              <div class="text">
+                <span class="date text-muted float-md-right">{{review.created_at}} </span>
+                <h6 class="mb-1">By: {{review.owner.username}} </h6>
+                <div class="rating-star">
+                  <span>
+                    <i class="fa fa-star{% if review.rate == 0.5 %}-half-o{% elif review.rate < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if review.rate == 1.5 %}-half-o{% elif review.rate < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if review.rate == 2.5 %}-half-o{% elif review.rate < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if review.rate == 3.5 %}-half-o{% elif review.rate < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if review.rate == 4.5 %}-half-o{% elif review.rate < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div> <!-- icontext.// -->
+            <div class="mt-3">
+              <h6>Title: {{review.title}}</h6>
+              <p>Body: 
+                {{review.body}}
+              </p>
+            </div>
+  
+
+              
+          
+            </div>
+          </div>
+        {% endfor %} 
+             
+
+
+        </div>
+      </div>
+
+     
+      <script>
+        var acc = document.getElementsByClassName("accordionn");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function () {
+            this.classList.toggle("activee");
+
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+          });
+        }
+      </script>
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

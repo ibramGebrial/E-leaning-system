@@ -1,0 +1,33 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+<body style="background-color: #eee">
+  <div class="container">
+    <div class="email-desc-wrapper">
+      <div class="email-header">
+        <div class="email-date">{{messagee.created_at}}</div>
+        <div class="email-subject">{{messagee.subject}}</div>
+        <p class="recipient">
+          <span>From:</span
+          ><a href="{%url 'profiles' messagee.sender.id %}">
+            {{messagee.name}}</a
+          >
+          {%if messagee.email%} &lt;{{messagee.email}}&gt; {% endif %}
+        </p>
+      </div>
+      <div class="email-body">
+        <p>{{messagee.body|linebreaksbr}}</p>
+      </div>
+
+      {% comment %}
+      <div class="d-flex justify-content-center" style="margin-bottom: 24px">
+        <a
+          href="{% 'send-message' recipient.id %}"
+          class="btn btn-primary btn-block form__button"
+          style="padding-top: 12px"
+          >answer
+        </a>
+      </div>
+      {% endcomment %}
+    </div>
+  </div>
+</body>
+{% endblock content %}

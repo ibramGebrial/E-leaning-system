@@ -1,0 +1,47 @@
+{%extends 'main.html'%} {% block content %} {%load static%} 
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6
+        class="section-title bg-white text-center text-primary px-3 course_Detail"
+      >
+        Material
+      </h6>
+    </div>
+
+  
+      
+        <div class="col-md-6">
+          <div
+            class="card mb-4 mb-md-0"
+            style="background-color: #eee; width: 100%"
+          >
+            <div class="card-body">
+		<h4 style="color:black">Title: {{material.title}}</h4>
+        
+        
+        <h4 style="color:black">Body: {{material.body}}</h4>
+              {% if material.file %}
+        <a href="{{book.file.url}}"         
+             role="button"
+             class="button btn btn-primary form__button download_button">
+              Download
+            </a>
+            {% endif %}
+          
+
+             
+             
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      {% endblock content %}
+    </div>
+  </div>
+</div>
+

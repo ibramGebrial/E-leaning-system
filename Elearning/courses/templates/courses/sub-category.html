@@ -1,0 +1,95 @@
+{%extends 'main.html'%} {% block content %} {%load static%}
+<div class="container-xxl py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      
+            <div class="row g-4 justify-content-center">
+                {%for course in courses%}
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="course-item bg-light">
+                    <div iv class="position-relative overflow-hidden">
+                    <img
+                        class="img-fluid img_course"
+                        src="{{course.imageURL}}"
+                        alt="image"
+                    />
+                    <div
+                        class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4"
+                    >
+                        {% if request.user.profile in course.students.all or request.user.profile == course.owner %}
+                        <a
+                        href="{% url 'course' course.id %}"
+                        class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                        style="border-radius: 30px 30px 30px 30px"
+                        >Read More</a
+                        >
+
+                        {% else %}
+                        <a
+                        href="{% url 'course' course.id %}"
+                        class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                        style="border-radius: 30px 0 0 30px"
+                        >Read More</a
+                        >
+
+                        <a
+                        href="{% url 'enroll' course.id %}"
+                        class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                        style="border-radius: 0 30px 30px 0"
+                        >Join Now</a
+                        >
+                        {% endif %}
+                    </div>
+                    </div>
+                    <div class="text-center p-4 pb-0">
+                    {% comment %}
+                    <h3 class="mb-0">$149.00</h3>
+                    {% endcomment %}
+                    <div class="mb-3">
+                        <div class="rating-star">
+                            <span>
+                                  <small style="color: #cc9000;">{{course.avgreview}}</small>
+                                  <i class ="fa fa-star{% if course.avgreview < 0.5 %}-o{% elif course.avgreview >= 0.5 and course.avgreview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                  <i class ="fa fa-star{% if course.avgreview < 1.5 %}-o{% elif course.avgreview >= 1.5 and course.avgreview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                  <i class ="fa fa-star{% if course.avgreview < 2.5 %}-o{% elif course.avgreview >= 2.5 and course.avgreview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                  <i class ="fa fa-star{% if course.avgreview < 3.5 %}-o{% elif course.avgreview >= 3.5 and course.avgreview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                  <i class ="fa fa-star{% if course.avgreview < 4.5 %}-o{% elif course.avgreview >= 4.5 and course.avgreview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                  
+                                  <small>({{ course.countreview }} rating{{ course.countreview |pluralize:"s"}})</small> 
+                            </span>
+                                    </div>
+                    </div>
+                    <h5 class="mb-4">{{course.title}}</h5>
+                    </div>
+                    <div class="d-flex border-top">
+                    <small class="flex-fill text-center border-end py-2"
+                        ><i class="fa fa-user-tie text-primary me-2"></i
+                        ><a href="{%url 'profiles' course.owner.id %}"
+                        >By {{ course.owner.name }}
+                        </a></small
+                    >
+
+                    <small class="flex-fill text-center border-end py-2"
+                        ><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small
+                    >
+                    <small class="flex-fill text-center py-2"
+                        ><i class="fa fa-user text-primary me-2"></i
+                        >{{ course.students.count }} Student{{ course.students.count|pluralize:"s"}}</small
+                    >
+                    </div>
+                    <div class="btn-group-toggle">
+                    {% for tag in course.tags.all %}
+                    <span class="btn btn-primary tags">
+                        <small>{{tag}}</small>
+                    </span>
+                    {%endfor%}
+                    </div>
+                </div>
+
+                <!-- Courses End -->
+                </div>
+                {%endfor%}
+            </div>
+        </div> </div> </div>
+
+{% endblock content %}

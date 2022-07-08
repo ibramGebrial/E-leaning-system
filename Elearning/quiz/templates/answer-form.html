@@ -1,0 +1,45 @@
+{%extends 'main.html'%} {% block content %}
+
+<body style="background-color: #eee">
+  <form action=" " method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+      <div class="card px-1 py-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+          
+            <div class="form-control col s9">
+                <input type="text" name="answer_option " id="id_answer_text" class="validate">
+                <label for="answer_option ">Answer 1</label>
+              </div>
+    
+              <div class="form-control col s3">
+                <select id="id_is_correct" name="correct_answer">
+                  <option value="" disabled selected>Choose yes or no</option>
+                  <option value="True">Yes</option>
+                  <option value="False">No</option>
+                </select>
+
+              </div>
+    
+              
+        
+         
+    
+
+
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block form__button">Save</button>
+          <input type="button" class="btn btn-primary btn-block form__button" value="Add more question" onclick="window.history.go(-2)" /> 
+        </div>
+      </div>
+    </div>
+    
+  </form>
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{%extends 'main.html'%} {% block content %}
+
+<body style="background-color: #eee">
+  <form action=" " method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+      <div class="card px-1 py-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              {%for field in form %}
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label"
+                  >{{field.label}}</label
+                >
+                {{field}}
+              </div>
+              {%endfor%}
+
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label">Tags</label>
+                <textarea
+                  class="form-control"
+                  name="addtags"
+                  placeholder="Add new tags"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                {% for tag in course.tags.all %}
+
+                <small
+                  class="btn btn-primary tags course-tag"
+                  data-tag="{{tag.id}}"
+                  data-course="{{course.id}}"
+                  >{{tag.name}} &#215;</small
+                >
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block form__button">Submit</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      let tags = document.getElementsByClassName("course-tag");
+    
+      for (let i = 0; tags.length > i; i++) {
+        tags[i].addEventListener("click", (e) => {
+          let tagId = e.target.dataset.tag;
+          let courseId = e.target.dataset.course;
+    
+          fetch("http://127.0.0.1:8000/remove-tag/", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ course: courseId, tag: tagId }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              e.target.remove();
+             
+            });
+        });
+      }
+    </script>
+  </form>
+  
+</body>
+
+{% endblock %}

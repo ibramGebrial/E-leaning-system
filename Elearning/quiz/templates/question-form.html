@@ -1,0 +1,38 @@
+{%extends 'main.html'%} {% block content %}
+
+<body style="background-color: #eee">
+  <form action=" " method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+      <div class="card px-1 py-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              {%for field in questionform %}
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label"
+                  >{{field.label}}</label
+                >
+                {{field}}
+              </div>
+              {%endfor%}
+              {% comment %} <a
+              href="{% url 'add-answer' question.id  %}"
+              type="button"
+              class="btn btn-outline-primary ms-1"
+              style="border-radius: 10px; float: right"
+              >Add answers</a>         
+
+            </div> {% endcomment %}
+          </div>
+
+          <button class="btn btn-primary btn-block form__button">Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  
+</body>
+
+{% endblock %}
